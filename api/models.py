@@ -11,21 +11,23 @@ from django.db.models import OneToOneField, ManyToManyField
 # Create your models here.
 
 class Product(models.Model):
-    user = ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    name = CharField(max_length=200, null=True, blank=True)
-    image = ImageField(null=True, blank=True, default='/image/placeholder.png', upload_to='images/')
-    brand = CharField(max_length=200, null=True, blank=True)
-    category = CharField(max_length=200, null=True, blank=True)
-    description = CharField(max_length=1000, null=True, blank=True)
-    rating = DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
-    numReviews = IntegerField(null=True, blank=True, default=0)
-    price = DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
-    countInStock = IntegerField(null=True, blank=True, default=0)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    name = models.CharField(max_length=200, null=True, blank=True)
+    image = models.ImageField(null=True, blank=True, default='/image/placeholder.png', upload_to='images/')
+    image_url = models.URLField(max_length=500, null=True, blank=True)  # New field for storing image URLs
+    brand = models.CharField(max_length=200, null=True, blank=True)
+    category = models.CharField(max_length=200, null=True, blank=True)
+    description = models.CharField(max_length=1000, null=True, blank=True)
+    rating = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
+    numReviews = models.IntegerField(null=True, blank=True, default=0)
+    price = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
+    countInStock = models.IntegerField(null=True, blank=True, default=0)
     createdAt = models.DateTimeField(auto_now_add=True)
     _id = models.AutoField(primary_key=True, editable=False)
 
     def __str__(self):
-        return self.name + ' ' + self.brand + ' ' + str(self.price)
+        return f"{self.name} {self.brand} {self.price}"
+
     
 
 class Review(models.Model):
